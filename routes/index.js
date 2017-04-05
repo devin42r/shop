@@ -7,48 +7,49 @@ var router = express.Router();
 // });
 
 var mongoose = require('mongoose');
-var Comment = mongoose.model('Comment');
+// var Comment = mongoose.model('Comment');
+var Car = mongoose.model('Car');
 
-router.get('/comments', function(req, res, next) {
-    Comment.find(function(err, comments){
+router.get('/cars', function(req, res, next) {
+    Car.find(function(err, cars){
         if(err){ return next(err); }
-        res.json(comments);
+        res.json(cars);
     });
 });
 
-router.post('/comments', function(req, res, next) {
-    var comment = new Comment(req.body);
-    comment.save(function(err, comment){
+router.post('/cars', function(req, res, next) {
+    var car = new Car(req.body);
+    car.save(function(err, car){
         if(err){ return next(err); }
-        res.json(comment);
+        res.json(car);
     });
 });
 
-router.param('comment', function(req, res, next, id) {
-    var query = Comment.findById(id);
-    query.exec(function (err, comment){
+router.param('car', function(req, res, next, id) {
+    var query = Car.findById(id);
+    query.exec(function (err, car){
         if (err) { return next(err); }
-        if (!comment) { return next(new Error("can't find comment")); }
-        req.comment = comment;
+        if (!car) { return next(new Error("can't find car")); }
+        req.car = car;
         return next();
     });
 });
 
-router.get('/comments/:comment', function(req, res) {
-    res.json(req.comment);
+router.get('/cars/:car', function(req, res) {
+    res.json(req.car);
 });
 
-router.put('/comments/:comment/upvote', function(req, res, next) {
-    req.comment.upvote(function(err, comment){
+router.put('/cars/:car/upvote', function(req, res, next) {
+    req.car.upvote(function(err, car){
         if (err) { return next(err); }
-        res.json(comment);
+        res.json(car);
     });
 });
 
-router.delete('/comments/:comment', function(req, res) {
+router.delete('/cars/:car', function(req, res) {
     console.log("in Delete");
-    req.comment.remove();
-    res.json(req.comment);
+    req.car.remove();
+    res.json(req.car);
 });
 
 module.exports = router;

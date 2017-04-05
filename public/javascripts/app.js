@@ -2,54 +2,56 @@
  * Created by devin on 4/4/17.
  */
 
-angular.module('comment', [])
+angular.module('car', [])
     .controller('MainCtrl', [
         '$scope','$http',
         function($scope, $http){
-            $scope.comments = [
-                // {title:'Comment 1', upvotes:5},
-                // {title:'Comment 2', upvotes:6},
-                // {title:'Comment 3', upvotes:1},
-                // {title:'Comment 4', upvotes:4},
-                // {title:'Comment 5', upvotes:3}
+            $scope.cars = [
+                // {title:'car 1', upvotes:5},
+                // {title:'car 2', upvotes:6},
+                // {title:'car 3', upvotes:1},
+                // {title:'car 4', upvotes:4},
+                // {title:'car 5', upvotes:3}
             ];
-            $scope.addComment = function() {
-                // $scope.comments.push({title:$scope.formContent,upvotes:0})
+            $scope.addCar = function() {
+                // $scope.cars.push({title:$scope.formContent,upvotes:0})
                 // $scope.formContent = 'Purple Elephant'
 
                 if($scope.make === '' || $scope.model === '') { alert('Please provide all three'); return; }
-                console.log("In addComment with "+$scope.make);
+                console.log("In addcar with "+$scope.make);
                 $scope.create({
-                    title: $scope.make,
+                    make: $scope.make,
+                    model: $scope.model,
                     upvotes: 0,
                 });
                 $scope.make = '';
                 $scope.model = '';
                 $scope.imgurl = '';
             }
-            $scope.incrementUpvotes = function(comment) {
-                $scope.upvote(comment);
+            $scope.incrementUpvotes = function(car) {
+                $scope.upvote(car);
             };
             $scope.getAll = function() {
-                return $http.get('/comments').success(function(data){
-                    angular.copy(data, $scope.comments);
+                return $http.get('/cars').success(function(data){
+                    angular.copy(data, $scope.cars);
+                    console.log(data);
                 });
             };
-            $scope.create = function(comment) {
-                console.log('in create with ' + comment)
-                return $http.post('/comments', comment).success(function (data) {
-                    $scope.comments.push(data);
+            $scope.create = function(car) {
+                console.log('in create with ' + car)
+                return $http.post('/cars', car).success(function (data) {
+                    $scope.cars.push(data);
                 });
             };
-            $scope.upvote = function(comment) {
-                return $http.put('/comments/' + comment._id + '/upvote')
+            $scope.upvote = function(car) {
+                return $http.put('/cars/' + car._id + '/upvote')
                     .success(function(data){
                         console.log("upvote worked");
-                        comment.upvotes += 1;
+                        car.upvotes += 1;
                     });
             };
-            $scope.delete = function(comment) {
-                $http.delete('/comments/' + comment._id )
+            $scope.delete = function(car) {
+                $http.delete('/cars/' + car._id )
                     .success(function(data){
                         console.log("delete worked");
                     });
