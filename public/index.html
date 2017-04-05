@@ -4,26 +4,30 @@
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
         <script src="javascripts/app.js"></script>
+        <link href="stylesheets/style.css" rel="stylesheet">
     </head>
 
     <body ng-app="car" ng-controller="MainCtrl">
+
         <div class="row">
-            <div class="col-md-6 col-md-offset-3">
+            <div class="col-md-3">
+                <div class="page-header">
+                    <h2>Add New</h2>
+                </div>
+                <form ng-submit="addCar()">
+                    <div class="row">Make<br/><input type="text" ng-model="make"></input></div>
+                    <div class="row">Model<br/><input type="text" ng-model="model"></input></div>
+                    <div class="row">Image URL<br/><input type="text" ng-model="imgurl"></input></div>
+                    <div class="row"><button type="submit" class="btn btn-info">Add Car</button></div>
+                </form>
+            </div>
+
+            <div class="col-md-9">
                 <div class="page-header">
                     <h1>Cars </h1>
                 </div>
 
-                <form ng-submit="addCar()">
-                    Make
-                    <input type="text" ng-model="make"></input>
-                    Model
-                    <input type="text" ng-model="model"></input>
-                    Image URL
-                    <input type="text" ng-model="imgurl"></input>
-
-                    <button type="submit">Add Car</button>
-                </form>
-                <!--<div ng-repeat="comment in comments | orderBy: '-upvotes'">-->
+            <!--<div ng-repeat="comment in comments | orderBy: '-upvotes'">-->
                 <!--<div ng-repeat="car in cars | orderBy: ['make', 'model', '-upvotes']">-->
                     <!--<span class="glyphicon glyphicon-remove" ng-click="delete(car)"></span>-->
                     <!--<span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(car)"></span>-->
@@ -33,6 +37,7 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Image</th>
                             <th>Make</th>
                             <th>Model</th>
                             <th>Votes</th>
@@ -42,6 +47,7 @@
                     </thead>
 
                     <tr ng-repeat="car in cars | orderBy: ['make', 'model', '-upvotes']">
+                        <td><img class='car' ng-src="{{car.image}}" /></td>
                         <td>{{car.make}}</td>
                         <td>{{car.model}}</td>
                         <td>{{car.upvotes}}</td>

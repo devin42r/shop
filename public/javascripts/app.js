@@ -22,6 +22,7 @@ angular.module('car', [])
                 $scope.create({
                     make: $scope.make,
                     model: $scope.model,
+                    image: $scope.imgurl,
                     upvotes: 0,
                 });
                 $scope.make = '';
@@ -38,7 +39,6 @@ angular.module('car', [])
                 });
             };
             $scope.create = function(car) {
-                console.log('in create with ' + car)
                 return $http.post('/cars', car).success(function (data) {
                     $scope.cars.push(data);
                 });

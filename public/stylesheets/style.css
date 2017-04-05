@@ -6,3 +6,12 @@ body {
 a {
   color: #00B7FF;
 }
+
+.car {
+  width: 100px;
+}
+
+button {
+  margin-left: 100px;
+  margin-top: 20px;
+}
