@@ -18,18 +18,37 @@
                     <input type="text" ng-model="make"></input>
                     Model
                     <input type="text" ng-model="model"></input>
-                    <!--Image URL-->
-                    <!--<input type="text" ng-model="imgurl"></input>-->
+                    Image URL
+                    <input type="text" ng-model="imgurl"></input>
 
                     <button type="submit">Add Car</button>
                 </form>
                 <!--<div ng-repeat="comment in comments | orderBy: '-upvotes'">-->
-                <div ng-repeat="car in cars | orderBy: ['make', 'model', '-upvotes']">
-                    <span class="glyphicon glyphicon-remove" ng-click="delete(car)"></span>
-                    <span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(car)"></span>
-                    {{car.make}}, {{car.model}} - upvotes: {{car.upvotes}}
-                    <!--<img class='avatar' ng-src="{{p.avatarUrl}}" />-->
-                </div>
+                <!--<div ng-repeat="car in cars | orderBy: ['make', 'model', '-upvotes']">-->
+                    <!--<span class="glyphicon glyphicon-remove" ng-click="delete(car)"></span>-->
+                    <!--<span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(car)"></span>-->
+                    <!--{{car.make}}, {{car.model}} - upvotes: {{car.upvotes}}-->
+                    <!--&lt;!&ndash;<img class='avatar' ng-src="{{p.avatarUrl}}" />&ndash;&gt;-->
+                <!--</div>-->
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Votes</th>
+                            <th></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+
+                    <tr ng-repeat="car in cars | orderBy: ['make', 'model', '-upvotes']">
+                        <td>{{car.make}}</td>
+                        <td>{{car.model}}</td>
+                        <td>{{car.upvotes}}</td>
+                        <td><a ng-click="incrementUpvotes(car)">Upvote</a></td>
+                        <td><a ng-click="delete(car)"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    </tr>
+                </table>
             </div>
         </div>
     </body>
