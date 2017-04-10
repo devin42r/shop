@@ -23,6 +23,7 @@ angular.module('car', [])
                     make: $scope.make,
                     model: $scope.model,
                     image: $scope.imgurl,
+                    title: $scope.title,
                     upvotes: 0,
                 });
                 $scope.make = '';

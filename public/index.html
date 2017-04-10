@@ -1,6 +1,6 @@
 <html>
     <head>
-        <title>Cars</title>
+        <title>Conference Reading List</title>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
         <script src="javascripts/app.js"></script>
@@ -15,16 +15,17 @@
                     <h2>Add New</h2>
                 </div>
                 <form ng-submit="addCar()">
-                    <div class="row">Make<br/><input type="text" ng-model="make"></input></div>
-                    <div class="row">Model<br/><input type="text" ng-model="model"></input></div>
+                    <div class="row">Session<br/><input type="text" ng-model="make"></input></div>
                     <div class="row">Image URL<br/><input type="text" ng-model="imgurl"></input></div>
-                    <div class="row"><button type="submit" class="btn btn-info">Add Car</button></div>
+                    <div class="row">Speaker<br/><input type="text" ng-model="model"></input></div>
+                    <div class="row">Title<br/><input type="text" ng-model="title"></input></div>
+                    <div class="row"><button type="submit" class="btn btn-info">Add Talk</button></div>
                 </form>
             </div>
 
             <div class="col-md-9">
                 <div class="page-header">
-                    <h1>Cars </h1>
+                    <h1>Conference Reading List </h1>
                 </div>
 
             <!--<div ng-repeat="comment in comments | orderBy: '-upvotes'">-->
@@ -37,19 +38,21 @@
                 <table class="table">
                     <thead>
                         <tr>
+                            <th>Session</th>
                             <th>Image</th>
-                            <th>Make</th>
-                            <th>Model</th>
+                            <th>Speaker</th>
+                            <th>Title</th>
                             <th>Votes</th>
                             <th></th>
                             <th></th>
                         </tr>
                     </thead>
 
-                    <tr ng-repeat="car in cars | orderBy: ['make', 'model', '-upvotes']">
-                        <td><img class='car' ng-src="{{car.image}}" /></td>
+                    <tr ng-repeat="car in cars | orderBy: ['-upvotes', 'make']">
                         <td>{{car.make}}</td>
+                        <td><img class='car' ng-src="{{car.image}}" /></td>
                         <td>{{car.model}}</td>
+                        <td>{{car.title}}</td>
                         <td>{{car.upvotes}}</td>
                         <td><a ng-click="incrementUpvotes(car)">Upvote</a></td>
                         <td><a ng-click="delete(car)"><span class="glyphicon glyphicon-trash"></span></a></td>
