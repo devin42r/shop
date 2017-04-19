@@ -8,48 +8,48 @@ var router = express.Router();
 
 var mongoose = require('mongoose');
 // var Comment = mongoose.model('Comment');
-var Car = mongoose.model('Car');
+var Item = mongoose.model('Item');
 
-router.get('/cars', function(req, res, next) {
-    Car.find(function(err, cars){
+router.get('/Items', function(req, res, next) {
+    Item.find(function(err, items){
         if(err){ return next(err); }
-        res.json(cars);
+        res.json(items);
     });
 });
 
-router.post('/cars', function(req, res, next) {
-    var car = new Car(req.body);
-    car.save(function(err, car){
+router.post('/items', function(req, res, next) {
+    var item = new Item(req.body);
+    item.save(function(err, item){
         if(err){ return next(err); }
-        res.json(car);
+        res.json(item);
     });
 });
 
-router.param('car', function(req, res, next, id) {
-    var query = Car.findById(id);
-    query.exec(function (err, car){
+router.param('item', function(req, res, next, id) {
+    var query = Item.findById(id);
+    query.exec(function (err, item){
         if (err) { return next(err); }
-        if (!car) { return next(new Error("can't find car")); }
-        req.car = car;
+        if (!item) { return next(new Error("can't find item")); }
+        req.item = item;
         return next();
     });
 });
 
-router.get('/cars/:car', function(req, res) {
-    res.json(req.car);
+router.get('/items/:item', function(req, res) {
+    res.json(req.item);
 });
 
-router.put('/cars/:car/upvote', function(req, res, next) {
-    req.car.upvote(function(err, car){
+router.put('/items/:item/upvote', function(req, res, next) {
+    req.item.upvote(function(err, item){
         if (err) { return next(err); }
-        res.json(car);
+        res.json(item);
     });
 });
 
-router.delete('/cars/:car', function(req, res) {
+router.delete('/items/:item', function(req, res) {
     console.log("in Delete");
-    req.car.remove();
-    res.json(req.car);
+    req.item.remove();
+    res.json(req.item);
 });
 
 module.exports = router;
