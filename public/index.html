@@ -1,19 +1,28 @@
 <html>
     <head>
-        <title>Conference Reading List</title>
+        <title>Shopping In Provo</title>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/jquery/1/jquery.min.js"></script>
+        <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
         <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
         <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.19/angular.min.js"></script>
         <script src="javascripts/app.js"></script>
         <link href="stylesheets/style.css" rel="stylesheet">
+        <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
+        <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     </head>
 
     <body ng-app="car" ng-controller="MainCtrl">
+
+        <a href="javascript:void(0)" id="addNew">Add New</a>
 
         <div class="row">
             <div class="col-md-3">
                 <div class="page-header">
                     <h2>Add New</h2>
                 </div>
+                <select ng-model="selectedName" ng-options="x for x in names">
+                </select>
                 <form ng-submit="addCar()">
                     <div class="row">Session<br/><input type="text" ng-model="make"></input></div>
                     <div class="row">Image URL<br/><input type="text" ng-model="imgurl"></input></div>
@@ -25,7 +34,7 @@
 
             <div class="col-md-9">
                 <div class="page-header">
-                    <h1>Conference Reading List </h1>
+                    <h1>Items</h1>
                 </div>
 
             <!--<div ng-repeat="comment in comments | orderBy: '-upvotes'">-->
@@ -38,12 +47,12 @@
                 <table class="table">
                     <thead>
                         <tr>
-                            <th>Session</th>
+                            <th>Date</th>
                             <th>Image</th>
-                            <th>Speaker</th>
-                            <th>Title</th>
+                            <th>Item</th>
+                            <th>Location</th>
+                            <th>Price</th>
                             <th>Votes</th>
-                            <th></th>
                             <th></th>
                         </tr>
                     </thead>
@@ -60,6 +69,47 @@
                 </table>
             </div>
         </div>
+
+
+        <div class="modal fade" id="addNewModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form>
+                            <div class="form-group">
+                                <label for="date" class="control-label">Date:</label>
+                                <input type="text" class="form-control" id="date">
+                            </div>
+                            <div class="form-group">
+                                <label for="message-text" class="control-label">Message:</label>
+                                <textarea class="form-control" id="message-text"></textarea>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Send message</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </body>
+
+    <script>
+        $(function() {
+            $('#addNew').click(function(){
+                $('#addNewModal').modal('show')
+            })
+
+            $('input[id="date"]').daterangepicker({
+                    singleDatePicker: true
+//                    showDropdowns: true
+                });
+        });
+    </script>
 
 </html>
