@@ -2,57 +2,51 @@
  * Created by devin on 4/4/17.
  */
 
-angular.module('car', [])
+angular.module('item', [])
     .controller('MainCtrl', [
         '$scope','$http',
         function($scope, $http){
-            $scope.cars = [
-                // {title:'car 1', upvotes:5},
-                // {title:'car 2', upvotes:6},
-                // {title:'car 3', upvotes:1},
-                // {title:'car 4', upvotes:4},
-                // {title:'car 5', upvotes:3}
+            $scope.locations = [
+                'Smiths','Sprouts','WinCo'
             ];
-            $scope.addCar = function() {
+            $scope.items = [];
+            $scope.addItem = function() {
+                $scope.submitted = true;
+                console.log($scope.date);
+                console.log('yo')
                 // $scope.cars.push({title:$scope.formContent,upvotes:0})
                 // $scope.formContent = 'Purple Elephant'
 
-                if($scope.make === '' || $scope.model === '') { alert('Please provide all three'); return; }
-                console.log("In addcar with "+$scope.make);
+                // if($scope.make === '' || $scope.model === '') { alert('Please provide all three'); return; }
+                console.log("In addItem with "+$scope.item);
                 $scope.create({
-                    make: $scope.make,
-                    model: $scope.model,
-                    image: $scope.imgurl,
-                    title: $scope.title,
-                    upvotes: 0,
+                    date: $scope.date,
+                    image: $scope.image,
+                    item: $scope.item,
+                    location: $scope.location,
+                    price: $scope.price,
                 });
-                $scope.make = '';
-                $scope.model = '';
-                $scope.imgurl = '';
+                $scope.price = '';
+                $scope.item = '';
+                $scope.image = '';
+                angular.element('#addNewModal').modal('hide');
             }
-            $scope.incrementUpvotes = function(car) {
-                $scope.upvote(car);
+            $scope.incrementUpvotes = function(item) {
+                $scope.upvote(item);
             };
             $scope.getAll = function() {
-                return $http.get('/cars').success(function(data){
-                    angular.copy(data, $scope.cars);
+                return $http.get('/items').success(function(data){
+                    angular.copy(data, $scope.items);
                     console.log(data);
                 });
             };
-            $scope.create = function(car) {
-                return $http.post('/cars', car).success(function (data) {
-                    $scope.cars.push(data);
+            $scope.create = function(item) {
+                return $http.post('/items', item).success(function (data) {
+                    $scope.items.push(data);
                 });
             };
-            $scope.upvote = function(car) {
-                return $http.put('/cars/' + car._id + '/upvote')
-                    .success(function(data){
-                        console.log("upvote worked");
-                        car.upvotes += 1;
-                    });
-            };
-            $scope.delete = function(car) {
-                $http.delete('/cars/' + car._id )
+            $scope.delete = function(item) {
+                $http.delete('/items/' + item._id )
                     .success(function(data){
                         console.log("delete worked");
                     });

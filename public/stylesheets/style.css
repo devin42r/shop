@@ -15,3 +15,25 @@ button {
   margin-left: 100px;
   margin-top: 20px;
 }
+
+body .daterangepicker {
+  width: 326px;
+}
+
+#addNew {
+  float: right;
+  margin: 10px;
+}
+
+h1 {
+  display:inline;
+}
+.glyphicon-trash:hover {
+  cursor:pointer;
+}
+
+#searchBar {
+  display:inline;
+  float: right;
+  width: 200px;
+}

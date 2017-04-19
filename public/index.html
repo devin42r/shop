@@ -12,59 +12,46 @@
         <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
     </head>
 
-    <body ng-app="car" ng-controller="MainCtrl">
-
-        <a href="javascript:void(0)" id="addNew">Add New</a>
+    <body ng-app="item" ng-controller="MainCtrl">
 
         <div class="row">
-            <div class="col-md-3">
-                <div class="page-header">
-                    <h2>Add New</h2>
-                </div>
-                <select ng-model="selectedName" ng-options="x for x in names">
-                </select>
-                <form ng-submit="addCar()">
-                    <div class="row">Session<br/><input type="text" ng-model="make"></input></div>
-                    <div class="row">Image URL<br/><input type="text" ng-model="imgurl"></input></div>
-                    <div class="row">Speaker<br/><input type="text" ng-model="model"></input></div>
-                    <div class="row">Title<br/><input type="text" ng-model="title"></input></div>
-                    <div class="row"><button type="submit" class="btn btn-info">Add Talk</button></div>
-                </form>
-            </div>
 
-            <div class="col-md-9">
+            <div class="col-md-8 col-md-offset-2">
                 <div class="page-header">
                     <h1>Items</h1>
+                    <form id="searchBar">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <div class="input-group-addon"><i class="fa fa-search"></i></div>
+
+                                <input type="text" class="form-control" placeholder="Search Item" ng-model="searchItem">
+
+                            </div>
+                        </div>
+                    </form>
+                    <a href="javascript:void(0)" id="addNew">Add New</a>
+
                 </div>
 
-            <!--<div ng-repeat="comment in comments | orderBy: '-upvotes'">-->
-                <!--<div ng-repeat="car in cars | orderBy: ['make', 'model', '-upvotes']">-->
-                    <!--<span class="glyphicon glyphicon-remove" ng-click="delete(car)"></span>-->
-                    <!--<span class="glyphicon glyphicon-thumbs-up" ng-click="incrementUpvotes(car)"></span>-->
-                    <!--{{car.make}}, {{car.model}} - upvotes: {{car.upvotes}}-->
-                    <!--&lt;!&ndash;<img class='avatar' ng-src="{{p.avatarUrl}}" />&ndash;&gt;-->
-                <!--</div>-->
                 <table class="table">
                     <thead>
                         <tr>
                             <th>Date</th>
                             <th>Image</th>
                             <th>Item</th>
+                            <th>Price (per lbs)</th>
                             <th>Location</th>
-                            <th>Price</th>
-                            <th>Votes</th>
                             <th></th>
                         </tr>
                     </thead>
 
-                    <tr ng-repeat="car in cars | orderBy: ['-upvotes', 'make']">
-                        <td>{{car.make}}</td>
-                        <td><img class='car' ng-src="{{car.image}}" /></td>
-                        <td>{{car.model}}</td>
-                        <td>{{car.title}}</td>
-                        <td>{{car.upvotes}}</td>
-                        <td><a ng-click="incrementUpvotes(car)">Upvote</a></td>
-                        <td><a ng-click="delete(car)"><span class="glyphicon glyphicon-trash"></span></a></td>
+                    <tr ng-repeat="item in items | filter:searchItem">
+                        <td>{{item.date}}</td>
+                        <td><img class='car' ng-src="{{item.image}}" /></td>
+                        <td>{{item.item}}</td>
+                        <td>{{item.price | currency}}</td>
+                        <td>{{item.location}}</td>
+                        <td><a ng-click="delete(item)"><span class="glyphicon glyphicon-trash"></span></a></td>
                     </tr>
                 </table>
             </div>
@@ -76,24 +63,45 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                        <h4 class="modal-title" id="exampleModalLabel">New message</h4>
+                        <h4 class="modal-title" id="exampleModalLabel">New Item</h4>
                     </div>
                     <div class="modal-body">
-                        <form>
-                            <div class="form-group">
-                                <label for="date" class="control-label">Date:</label>
-                                <input type="text" class="form-control" id="date">
+                        <form ng-submit="addItem()" name="myForm">
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="date" class="control-label">Date:</label>
+                                    <input ng-model="date" type="text" class="form-control" id="date">
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="location" name="location" class="control-label">Location:</label>
+                                    <select ng-model="location" id="location" class="form-control" ng-options="x for x in locations"></select>
+                                    <!--<span style="color:red" ng-show="myForm.location.$error.required && myForm.location.$dirty">Location is required.</span>-->
+                                    <!--<input ng-model="location" type="text" name="location" class="form-control" id="location" required>-->
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-md-6">
+                                    <label for="item" class="control-label">Item:</label>
+                                    <span style="color:red" ng-show="(myForm.item.$dirty || submitted) && myForm.item.$error.required">Item is required.</span>
+                                    <input ng-model="item" name="item" type="text" class="form-control" id="item" required>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="price" class="control-label">Price:</label>
+                                    <span style="color:red" ng-show="(myForm.price.$dirty || submitted) && myForm.price.$error.required">Price is required.</span><span id="currency-default">{{price | currency}}</span><br/>
+                                    <input ng-model="price" name="price" type="text" class="form-control" id="price">
+                                </div>
                             </div>
                             <div class="form-group">
-                                <label for="message-text" class="control-label">Message:</label>
-                                <textarea class="form-control" id="message-text"></textarea>
+                                <label for="image" class="control-label">Image URL (optional):</label>
+                                <input ng-model="image" type="text" class="form-control" id="image">
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                <button type="submit" class="btn btn-primary">Submit</button>
                             </div>
                         </form>
                     </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                        <button type="button" class="btn btn-primary">Send message</button>
-                    </div>
+
                 </div>
             </div>
         </div>
